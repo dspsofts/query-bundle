@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>{{ query.name }}</h1>
+
+    <p>{{ 'dspsofts.query.label.results'|transchoice(results|length) }}</p>
+
+    {% if results|length %}
+        <table class="listing1">
+            <thead>
+                <tr>
+                    {% for field in results|first|keys %}
+                        <th>{{ field }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        {% for val in result %}
+                            <td>{{ val }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

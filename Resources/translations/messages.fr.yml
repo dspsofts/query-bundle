@@ -1,0 +1,21 @@
+dspsofts:
+    query:
+        label:
+            list: Liste des requêtes
+            no_query: Il n'existe actuellement aucune requête.
+            name: Nom
+            query: Requête
+            created: Créée le
+            updated: Modifiée le
+            actions: Actions
+            results: >
+                {0} Aucun résultat|{1} %count% résultat|]1,Inf[ %count% résultats
+
+        action:
+            add: Nouvelle requête
+            save: Sauvegarder
+            edit: Modifier
+
+        flash:
+            created: Requête "%name%" créée avec succès.
+            updated: Requête "%name%" mise à jour avec succès.

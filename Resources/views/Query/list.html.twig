@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h2>{{ 'dspsofts.query.label.list'|trans }}</h2>
+
+    <a href="{{ path('dsp_query_query_add') }}">{{ 'dspsofts.query.action.add'|trans }}</a>
+
+    {% if queries|length %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ 'dspsofts.query.label.name'|trans }}</th>
+                <th>{{ 'dspsofts.query.label.created'|trans }}</th>
+                <th>{{ 'dspsofts.query.label.updated'|trans }}</th>
+                <th>{{ 'dspsofts.query.label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for query in queries %}
+                <tr>
+                    <td><a href="{{ path('dsp_query_query_run', {id: query.id}) }}">{{ query.name }}</a></td>
+                    <td>{{ query.created|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ query.updated|date('d/m/Y H:i:s') }}</td>
+                    <td>
+                        <a href="{{ path('dsp_query_query_edit', {id: query.id}) }}">{{ 'dspsofts.query.action.edit'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{{ 'dspsofts.query.label.no_query'|trans }}</p>
+    {% endif %}
+
+{% endblock %}
