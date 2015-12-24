@@ -6,6 +6,10 @@
     <p>{{ 'dspsofts.query.label.results'|transchoice(results|length) }}</p>
 
     {% if results|length %}
+        <p>
+            <a href="{{ path('dsp_query_query_export', {id: query.id}) }}">Exporter sous Excel</a>
+        </p>
+
         <table class="listing1">
             <thead>
                 <tr>

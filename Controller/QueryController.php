@@ -62,6 +62,55 @@ class QueryController extends Controller
     }
 
     /**
+     * @Route("/export/{id}", name="dsp_query_query_export")
+     */
+    public function exportAction(Query $query)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var \PDO $pdo */
+        $pdo = $em->getConnection();
+
+        $req = $pdo->prepare($query->getQuery());
+        $req->execute();
+
+        $objPHPExcel = new \PHPExcel();
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $numRow = 0;
+        while ($row = $req->fetch()) {
+            $numRow++;
+            if ($numRow == 1) {
+                $numCol = 0;
+                foreach (array_keys($row) as $val) {
+                    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($numCol, $numRow, $val);
+                    $numCol++;
+                }
+                $numRow++;
+            }
+
+            $numCol = 0;
+            foreach ($row as $val) {
+                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($numCol, $numRow, $val);
+                $numCol++;
+            }
+        }
+        $objWriter = new \PHPExcel_Writer_Excel2007($objPHPExcel);
+        $file = "/tmp/test.xlsx";
+        $objWriter->save($file);
+
+        header('Content-Disposition: attachment; filename=' . basename($file));
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Length: ' . filesize($file));
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+
+        readfile($file);
+    }
+
+    /**
      * @Route("/add", name="dsp_query_query_add")
      */
     public function addAction(Request $request)
